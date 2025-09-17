@@ -52,6 +52,7 @@ def trello_help() -> str:
        - Create a new card
        - Update a card's attributes
        - Delete a card
+       - Get card comments
     4. Checklist Operations:
        - Get a specific checklist
        - List all checklists in a card
