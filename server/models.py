@@ -32,6 +32,17 @@ class TrelloLabel(BaseModel):
     color: str | None = None
 
 
+class TrelloComment(BaseModel):
+    """Model representing a Trello card comment."""
+    
+    id: str
+    type: str
+    date: str
+    idMemberCreator: str
+    memberCreator: dict | None = None
+    data: dict
+
+
 class TrelloCard(BaseModel):
     """Model representing a Trello card."""
 

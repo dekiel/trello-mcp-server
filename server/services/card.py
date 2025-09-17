@@ -4,7 +4,7 @@ Service for managing Trello cards in MCP server.
 
 from typing import Any, Dict, List
 
-from server.models import TrelloCard
+from server.models import TrelloCard, TrelloComment
 from server.utils.trello_api import TrelloClient
 
 
@@ -77,3 +77,19 @@ class CardService:
             Dict[str, Any]: The response from the delete operation.
         """
         return await self.client.DELETE(f"/cards/{card_id}")
+
+    async def get_card_comments(self, card_id: str) -> List[TrelloComment]:
+        """Retrieves all comments for a specific card.
+
+        Args:
+            card_id (str): The ID of the card whose comments to retrieve.
+
+        Returns:
+            List[TrelloComment]: A list of comment objects for the card.
+        """
+        params = {
+            "filter": "commentCard",
+            "limit": "1000"
+        }
+        response = await self.client.GET(f"/cards/{card_id}/actions", params=params)
+        return [TrelloComment(**comment) for comment in response]

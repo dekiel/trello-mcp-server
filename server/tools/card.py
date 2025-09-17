@@ -7,7 +7,7 @@ from typing import List
 
 from mcp.server.fastmcp import Context
 
-from server.models import TrelloCard
+from server.models import TrelloCard, TrelloComment
 from server.services.card import CardService
 from server.trello import client
 from server.dtos.update_card import UpdateCardPayload
@@ -125,6 +125,27 @@ async def delete_card(ctx: Context, card_id: str) -> dict:
         return result
     except Exception as e:
         error_msg = f"Failed to delete card: {str(e)}"
+        logger.error(error_msg)
+        await ctx.error(error_msg)
+        raise
+
+
+async def get_card_comments(ctx: Context, card_id: str) -> List[TrelloComment]:
+    """Retrieves all comments for a specific card.
+
+    Args:
+        card_id (str): The ID of the card whose comments to retrieve.
+
+    Returns:
+        List[TrelloComment]: A list of comment objects for the card.
+    """
+    try:
+        logger.info(f"Getting comments for card: {card_id}")
+        result = await service.get_card_comments(card_id)
+        logger.info(f"Successfully retrieved {len(result)} comments for card: {card_id}")
+        return result
+    except Exception as e:
+        error_msg = f"Failed to get card comments: {str(e)}"
         logger.error(error_msg)
         await ctx.error(error_msg)
         raise
