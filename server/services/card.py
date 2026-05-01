@@ -93,3 +93,16 @@ class CardService:
         }
         response = await self.client.GET(f"/cards/{card_id}/actions", params=params)
         return [TrelloComment(**comment) for comment in response]
+
+    async def add_card_comment(self, card_id: str, text: str) -> TrelloComment:
+        """Adds a comment to a specific card.
+
+        Args:
+            card_id (str): The ID of the card to comment on.
+            text (str): The text content of the comment.
+
+        Returns:
+            TrelloComment: The newly created comment object.
+        """
+        response = await self.client.POST(f"/cards/{card_id}/actions/comments", data={"text": text})
+        return TrelloComment(**response)

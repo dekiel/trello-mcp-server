@@ -149,3 +149,25 @@ async def get_card_comments(ctx: Context, card_id: str) -> List[TrelloComment]:
         logger.error(error_msg)
         await ctx.error(error_msg)
         raise
+
+
+async def add_card_comment(ctx: Context, card_id: str, text: str) -> TrelloComment:
+    """Adds a comment to a specific card.
+
+    Args:
+        card_id (str): The ID of the card to comment on.
+        text (str): The text content of the comment (supports Markdown).
+
+    Returns:
+        TrelloComment: The newly created comment object.
+    """
+    try:
+        logger.info(f"Adding comment to card: {card_id}")
+        result = await service.add_card_comment(card_id, text)
+        logger.info(f"Successfully added comment to card: {card_id}")
+        return result
+    except Exception as e:
+        error_msg = f"Failed to add comment to card: {str(e)}"
+        logger.error(error_msg)
+        await ctx.error(error_msg)
+        raise
