@@ -1,11 +1,9 @@
 import logging
 import os
+from pathlib import Path
 
-import uvicorn
 from dotenv import load_dotenv
-from mcp.server.fastmcp import FastMCP
-from starlette.applications import Starlette
-from starlette.routing import Mount
+from mcp.server.mcpserver import MCPServer
 
 from server.tools.tools import register_tools
 
@@ -15,12 +13,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from the repo root, regardless of the process cwd
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 
 # Initialize MCP server
-mcp = FastMCP("Trello MCP Server")
+mcp = MCPServer("Trello MCP Server")
 
 # Register tools
 register_tools(mcp)
@@ -55,17 +53,10 @@ def start_sse_server():
         host = os.getenv("MCP_SERVER_HOST", "0.0.0.0")
         port = int(os.getenv("MCP_SERVER_PORT", "8000"))
 
-        # Create Starlette app with MCP server mounted
-        app = Starlette(
-            routes=[
-                Mount("/", app=mcp.sse_app()),
-            ]
-        )
-
         logger.info(
             f"Starting Trello MCP Server in SSE mode on http://{host}:{port}..."
         )
-        uvicorn.run(app, host=host, port=port)
+        mcp.run(transport="sse", host=host, port=port)
     except Exception as e:
         logger.error(f"Error starting SSE server: {str(e)}")
         raise

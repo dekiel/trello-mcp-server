@@ -5,7 +5,7 @@ This module contains tools for managing Trello boards.
 import logging
 from typing import List
 
-from mcp.server.fastmcp import Context
+from mcp.server.mcpserver import Context
 
 from server.models import TrelloBoard, TrelloLabel
 from server.dtos.create_label import CreateLabelPayload
@@ -34,7 +34,6 @@ async def get_board(ctx: Context, board_id: str) -> TrelloBoard:
     except Exception as e:
         error_msg = f"Failed to get board: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -52,7 +51,6 @@ async def get_boards(ctx: Context) -> List[TrelloBoard]:
     except Exception as e:
         error_msg = f"Failed to get boards: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -73,7 +71,6 @@ async def get_board_labels(ctx: Context, board_id: str) -> List[TrelloLabel]:
     except Exception as e:
         error_msg = f"Failed to get board labels: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -96,6 +93,5 @@ async def create_board_label(ctx: Context, board_id: str, payload: CreateLabelPa
     except Exception as e:
         error_msg = f"Failed to get board labels: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 

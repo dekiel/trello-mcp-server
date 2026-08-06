@@ -5,7 +5,7 @@ This module contains tools for managing Trello lists.
 import logging
 from typing import List
 
-from mcp.server.fastmcp import Context
+from mcp.server.mcpserver import Context
 
 from server.models import TrelloList
 from server.services.list import ListService
@@ -34,7 +34,6 @@ async def get_list(ctx: Context, list_id: str) -> TrelloList:
     except Exception as e:
         error_msg = f"Failed to get list: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -55,7 +54,6 @@ async def get_lists(ctx: Context, board_id: str) -> List[TrelloList]:
     except Exception as e:
         error_msg = f"Failed to get lists: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -80,7 +78,6 @@ async def create_list(
     except Exception as e:
         error_msg = f"Failed to create list: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -102,7 +99,6 @@ async def update_list(ctx: Context, list_id: str, name: str) -> TrelloList:
     except Exception as e:
         error_msg = f"Failed to update list: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -123,5 +119,4 @@ async def delete_list(ctx: Context, list_id: str) -> TrelloList:
     except Exception as e:
         error_msg = f"Failed to delete list: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise

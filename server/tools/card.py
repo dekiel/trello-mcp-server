@@ -5,7 +5,7 @@ This module contains tools for managing Trello cards.
 import logging
 from typing import List
 
-from mcp.server.fastmcp import Context
+from mcp.server.mcpserver import Context
 
 from server.models import TrelloCard, TrelloComment
 from server.services.card import CardService
@@ -35,7 +35,6 @@ async def get_card(ctx: Context, card_id: str) -> TrelloCard:
     except Exception as e:
         error_msg = f"Failed to get card: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -56,7 +55,6 @@ async def get_cards(ctx: Context, list_id: str) -> List[TrelloCard]:
     except Exception as e:
         error_msg = f"Failed to get cards: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -79,7 +77,6 @@ async def create_card(ctx: Context, payload: CreateCardPayload) -> TrelloCard:
     except Exception as e:
         error_msg = f"Failed to create card: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -105,7 +102,6 @@ async def update_card(
     except Exception as e:
         error_msg = f"Failed to update card: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -126,7 +122,6 @@ async def delete_card(ctx: Context, card_id: str) -> dict:
     except Exception as e:
         error_msg = f"Failed to delete card: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -147,7 +142,6 @@ async def get_card_comments(ctx: Context, card_id: str) -> List[TrelloComment]:
     except Exception as e:
         error_msg = f"Failed to get card comments: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise
 
 
@@ -169,5 +163,4 @@ async def add_card_comment(ctx: Context, card_id: str, text: str) -> TrelloComme
     except Exception as e:
         error_msg = f"Failed to add comment to card: {str(e)}"
         logger.error(error_msg)
-        await ctx.error(error_msg)
         raise

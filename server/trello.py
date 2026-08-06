@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -11,8 +12,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from the repo root, regardless of the process cwd
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 
 # Initialize Trello client and service
